@@ -1,0 +1,21 @@
+.popup_tip {
+
+
+}
+
+.popup__icon {
+    width: 120px;
+    height: 120px;
+    margin: 60px auto 32px auto;
+}
+
+.popup__icon-title {
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 900;
+font-size: 24px;
+line-height: 29px;
+text-align: center;
+
+color: #000000;
+}

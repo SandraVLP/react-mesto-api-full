@@ -1,0 +1,11 @@
+.header__link {
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 22px;
+background-color: black;
+border: none;
+padding: 0;
+color: #A9A9A9;
+}

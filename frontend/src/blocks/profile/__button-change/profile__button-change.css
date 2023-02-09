@@ -1,0 +1,31 @@
+.profile__button-change {
+    background: #000;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 50%;
+    height: 120px;
+    padding: 0;
+    position: relative;
+    width: 120px;
+    border: none;
+    cursor: pointer;
+}
+
+.profile__button-change:hover {
+    /* background-color: #000;
+    background-image: url('../../../images/pencil-big.svg'), url('../../../images/avatar.jpg');
+    background-position: 50%, 50%,0 0;
+    background-repeat: no-repeat;
+    background-size: 26px,100%;
+    cursor: pointer;
+    opacity: .6; */
+}
+
+.profile__button-change:hover .profile__avatar {
+    opacity: .6;
+}
+
+.profile__button-change:hover .profile__pencil {
+    display: block;
+}

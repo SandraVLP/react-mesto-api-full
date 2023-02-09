@@ -1,0 +1,14 @@
+.enter__welcome {
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 900;
+font-size: 24px;
+line-height: 29px;
+/* identical to box height */
+
+text-align: center;
+
+color: #FFFFFF;
+margin-bottom: 50px;
+margin-top: 60px;
+}

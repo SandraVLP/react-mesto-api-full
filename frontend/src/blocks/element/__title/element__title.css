@@ -1,0 +1,24 @@
+.element__title {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-left: 21px;
+    background-color: rgb(255, 255, 255);
+    font-style: normal;
+font-weight: 900;
+font-size: 24px;
+line-height: 29px;
+color: rgb(0, 0, 0);
+text-overflow: ellipsis;
+white-space: nowrap;
+overflow: hidden;
+flex-basis: 224px;
+
+}
+
+@media screen and (max-width: 610px) {
+    .element__title {
+        flex-basis: 200px;
+        
+    }
+
+}
