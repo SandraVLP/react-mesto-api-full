@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(requestLogger);
-app.use(cors);
+app.use(cors());
 
 app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
