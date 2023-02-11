@@ -12,6 +12,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const {
   login, createUser,
 } = require('./controllers/user');
+const cors = require('./middlewares/cors');
 const NotFoundError = require('./errors/not-found-err');
 
 // eslint-disable-next-line no-useless-escape
@@ -44,6 +45,7 @@ app.post('/signup', celebrate({
 }), createUser);
 
 app.use(errorLogger);
+app.use(cors);
 
 app.use((req, res, next) => {
   next(new NotFoundError('Страница по указанному маршруту не найдена'));
