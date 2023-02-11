@@ -1,7 +1,7 @@
 // Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
-  'https://domain.nomoreparties.site/',
-  'http://domain.nomoreparties.site/',
+  'https://aleksanvp.nomoredomains.work/',
+  'http://aleksanvp.nomoredomains.work/',
   'localhost:3000',
 ];
 
