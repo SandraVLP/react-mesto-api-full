@@ -52,20 +52,20 @@ app.use((req, res, next) => {
 });
 
 app.use(errors()); // обработчик ошибок celebrate
-app.use((err, req, res, next) => {
-  console.log('err', err);
-  // если у ошибки нет статуса, выставляем 500
-  const { statusCode = 500, message } = err;
-  res
-    .status(statusCode)
-    .send({
-      // проверяем статус и выставляем сообщение в зависимости от него
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-  next();
-});
+// app.use((err, req, res, next) => {
+//   console.log('err', err);
+//   // если у ошибки нет статуса, выставляем 500
+//   const { statusCode = 500, message } = err;
+//   res
+//     .status(statusCode)
+//     .send({
+//       // проверяем статус и выставляем сообщение в зависимости от него
+//       message: statusCode === 500
+//         ? 'На сервере произошла ошибка'
+//         : message,
+//     });
+//   next();
+// });
 
 app.listen(PORT, () => {
   // Если всё работает, консоль покажет, какой порт приложение слушает
