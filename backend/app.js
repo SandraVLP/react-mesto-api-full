@@ -24,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(requestLogger);
+app.use(cors);
 
 app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
@@ -45,7 +46,6 @@ app.post('/signup', celebrate({
 }), createUser);
 
 app.use(errorLogger);
-app.use(cors);
 
 app.use((req, res, next) => {
   next(new NotFoundError('Страница по указанному маршруту не найдена'));
