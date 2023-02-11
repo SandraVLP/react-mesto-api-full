@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
     console.log('CORS allowed');
     res.header('Access-Control-Allow-Origin', origin);
   } else {
-    console.log('CORS not allowed');
+    console.log('CORS not allowed origin', origin);
   }
   if (method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
