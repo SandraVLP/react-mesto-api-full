@@ -2,10 +2,11 @@ const express = require('express');
 // Слушаем 3000 порт
 const { PORT = 3000 } = process.env;
 require('dotenv').config();
+const cors = require('cors');
+
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi } = require('celebrate');
-const cors = require('cors');
 
 const app = express();
 const { errors } = require('celebrate');
