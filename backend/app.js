@@ -33,17 +33,17 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(requestLogger);
 
-const options = {
-  origin: ['https://aleksanvp.nomoredomains.work',
-    'http://aleksanvp.nomoredomains.work',
-    'localhost:3000',
-  ],
-  methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-type', 'origin', 'Authorization'],
-  credentials: true,
-};
+// const options = {
+//   origin: ['https://aleksanvp.nomoredomains.work',
+//     'http://aleksanvp.nomoredomains.work',
+//     'localhost:3000',
+//   ],
+//   methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+//   preflightContinue: false,
+//   optionsSuccessStatus: 204,
+//   allowedHeaders: ['Content-type', 'origin', 'Authorization'],
+//   credentials: true,
+// };
 
 app.use(cors());
 // app.use((req, res, next) => {
@@ -91,20 +91,20 @@ app.use((req, res, next) => {
 });
 
 app.use(errors()); // обработчик ошибок celebrate
-app.use((err, req, res, next) => {
-  console.log('err', err);
-  // если у ошибки нет статуса, выставляем 500
-  const { statusCode = 500, message } = err;
-  res
-    .status(statusCode)
-    .send({
-      // проверяем статус и выставляем сообщение в зависимости от него
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-  next();
-});
+// app.use((err, req, res, next) => {
+//   console.log('err', err);
+//   // если у ошибки нет статуса, выставляем 500
+//   const { statusCode = 500, message } = err;
+//   res
+//     .status(statusCode)
+//     .send({
+//       // проверяем статус и выставляем сообщение в зависимости от него
+//       message: statusCode === 500
+//         ? 'На сервере произошла ошибка'
+//         : message,
+//     });
+//   next();
+// });
 
 app.listen(PORT, () => {
   // Если всё работает, консоль покажет, какой порт приложение слушает
