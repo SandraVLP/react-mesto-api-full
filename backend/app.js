@@ -33,19 +33,19 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(requestLogger);
 
-// const options = {
-//   origin: ['https://aleksanvp.nomoredomains.work',
-//     'http://aleksanvp.nomoredomains.work',
-//     'localhost:3000',
-//   ],
-//   methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
-//   preflightContinue: false,
-//   optionsSuccessStatus: 204,
-//   allowedHeaders: ['Content-type', 'origin', 'Authorization'],
-//   credentials: true,
-// };
+const options = {
+  origin: ['https://aleksanvp.nomoredomains.work',
+    'http://aleksanvp.nomoredomains.work',
+    'localhost:3000',
+  ],
+  methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-type', 'origin', 'Authorization'],
+  credentials: true,
+};
 
-app.use(cors());
+app.use('*', cors(options));
 // app.use((req, res, next) => {
 //   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
 //   // проверяем, что источник запроса есть среди разрешённых
