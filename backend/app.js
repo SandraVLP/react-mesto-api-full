@@ -68,6 +68,12 @@ app.use('*', cors(options));
 app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),

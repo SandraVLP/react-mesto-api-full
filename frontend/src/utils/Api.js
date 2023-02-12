@@ -13,6 +13,16 @@ class Api {
     }
   }
 
+  setToken(token) {
+    this._headers = {...this._headers, 
+      authorization: `Bearer ${token}`}
+  }
+
+  removeToken () {
+    this._headers = {...this._headers, 
+      authorization: `Bearer `}
+  }
+
   getInitialCards() {
     return fetch(`${this._baseUrl}cards`, { headers: this._headers }).then(
       this._checkResponse
@@ -54,7 +64,7 @@ class Api {
       headers: this._headers,
       body: JSON.stringify({
         avatar: data.avatar,
-      }),
+      },),
     }).then(this._checkResponse);
   }
 
@@ -99,7 +109,6 @@ class Api {
 const api = new Api({
   baseUrl: "http://apialeksanvp.nomoredomains.work/",
   headers: {
-    authorization: `Bearer ${localStorage.getItem("jwt")}`,
     "Content-Type": "application/json",
   },
 });

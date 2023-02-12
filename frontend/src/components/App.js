@@ -50,7 +50,7 @@ function App() {
     api
       .setProfileData(data)
       .then((profile) => {
-        setCurrentUser(profile);
+        setCurrentUser(profile.data);
         closeAllPopups();
       })
       .catch((err) => {
@@ -62,7 +62,7 @@ function App() {
     api
       .setUserAvatar(data)
       .then((profile) => {
-        setCurrentUser(profile);
+        setCurrentUser(profile.data);
         closeAllPopups();
       })
       .catch((err) => {
@@ -109,6 +109,7 @@ function App() {
 
   function signOut() {
     localStorage.removeItem("jwt");
+    api.removeToken();
     setLoggedIn(false);
     navigate("/signin");
   }
@@ -122,6 +123,7 @@ function App() {
         .checkToken(jwt)
         .then((res) => {
           if (res) {
+            api.setToken(jwt);
             setEmail(res.data.email);
             setLoggedIn(true);
             navigate("/");
@@ -186,7 +188,7 @@ function App() {
     if (loggedIn) {
       Promise.all([api.getInitialCards()])
         .then(([cards]) => {
-          setCards(cards);
+          setCards(cards.data);
         })
         .catch((err) => {
           console.log(`Ошибка; ${err}`);
@@ -198,7 +200,7 @@ function App() {
     if (loggedIn) {
       Promise.all([api.getProfileData()])
         .then(([profile]) => {
-          setCurrentUser(profile);
+          setCurrentUser(profile.data);
         })
         .catch((err) => {
           console.log(`Ошибка; ${err}`);
