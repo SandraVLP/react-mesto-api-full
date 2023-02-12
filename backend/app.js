@@ -44,7 +44,7 @@ const options = {
   credentials: true,
 };
 
-app.use('*', cors(options));
+app.use(cors());
 // app.use((req, res, next) => {
 //   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
 //   // проверяем, что источник запроса есть среди разрешённых
