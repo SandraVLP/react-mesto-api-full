@@ -99,7 +99,7 @@ class Api {
 const api = new Api({
   baseUrl: "http://apialeksanvp.nomoredomains.work/",
   headers: {
-    authorization: "3bd429b0-18aa-4fd8-8b35-785c3cf83e41",
+    authorization: `Bearer ${localStorage.getItem("jwt")}`,
     "Content-Type": "application/json",
   },
 });
