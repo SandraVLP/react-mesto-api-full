@@ -18,10 +18,6 @@ const cardSchema = new mongoose.Schema({
       validator: (v) => validator.isURL(v) && urlRegExp.test(v),
       message: 'Некорректный URL',
     },
-    // validate: {
-    //   validator: (v) => urlRegExp.test(v),
-    //   message: 'Поле "link" должно быть валидным url-адресом.',
-    // },
   },
   owner: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
@@ -33,11 +29,6 @@ const cardSchema = new mongoose.Schema({
     default: [],
     required: true,
   },
-  // likes: {
-  //   type: mongoose.ObjectId,
-  //   default: {},
-  //   required: true,
-  //   ref: user,
   createdAt: {
     type: mongoose.Date,
     default: Date.now,

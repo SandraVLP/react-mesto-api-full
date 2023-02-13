@@ -10,25 +10,23 @@ const urlRegExp = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-
 
 router.get('/', auth, getUsers);
 router.get('/me', auth, getUser);
-router.get('/:userId', celebrate({
+router.get('/:userId', auth, celebrate({
   params: Joi.object().keys({
     userId: Joi.string().length(24).hex().required(),
   }),
-  body: Joi.object().keys({
-  }),
-}), auth, getUserById);
-router.patch('/me', celebrate({
+}), getUserById);
+router.patch('/me', auth, celebrate({
   // params: Joi.string().pattern(),
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2).max(30),
   }),
-}), auth, patchUserProfile);
-router.patch('/me/avatar', celebrate({
+}), patchUserProfile);
+router.patch('/me/avatar', auth, celebrate({
   // params: Joi.string().pattern(),
   body: Joi.object().keys({
-    avatar: Joi.string().uri().regex(RegExp(urlRegExp)),
+    avatar: Joi.string().required().uri().regex(RegExp(urlRegExp)),
   }),
-}), auth, patchUserAvatar);
+}), patchUserAvatar);
 
 module.exports = router;

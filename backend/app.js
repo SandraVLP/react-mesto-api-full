@@ -77,40 +77,40 @@ app.get('/crash-test', () => {
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
+    password: Joi.string().required(),
   }),
 }), login);
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
+    password: Joi.string().required(),
     name: Joi.string().min(2).max(30),
     avatar: Joi.string().uri().regex(RegExp(urlRegExp)),
     about: Joi.string().min(2).max(30),
   }),
 }), createUser);
 
-app.use(errorLogger);
-
 app.use((req, res, next) => {
   next(new NotFoundError('Страница по указанному маршруту не найдена'));
 });
 
+app.use(errorLogger);
+
 app.use(errors()); // обработчик ошибок celebrate
-// app.use((err, req, res, next) => {
-//   console.log('err', err);
-//   // если у ошибки нет статуса, выставляем 500
-//   const { statusCode = 500, message } = err;
-//   res
-//     .status(statusCode)
-//     .send({
-//       // проверяем статус и выставляем сообщение в зависимости от него
-//       message: statusCode === 500
-//         ? 'На сервере произошла ошибка'
-//         : message,
-//     });
-//   next();
-// });
+app.use((err, req, res, next) => {
+  console.log('err', err);
+  // если у ошибки нет статуса, выставляем 500
+  const { statusCode = 500, message } = err;
+  res
+    .status(statusCode)
+    .send({
+      // проверяем статус и выставляем сообщение в зависимости от него
+      message: statusCode === 500
+        ? 'На сервере произошла ошибка'
+        : message,
+    });
+  next();
+});
 
 app.listen(PORT, () => {
   // Если всё работает, консоль покажет, какой порт приложение слушает

@@ -12,21 +12,19 @@ const urlRegExp = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-
 const userSchema = new mongoose.Schema({
   name: { // у пользователя есть имя — опишем требования к имени в схеме:
     type: String, // имя — это строка
-    // required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
     minlength: 2, // минимальная длина имени — 2 символа
     maxlength: 30,
     default: 'Жак-Ив Кусто', // а максимальная — 30 символов
   },
   about: {
     type: String,
-    // required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
     minlength: 2, // минимальная длина имени — 2 символа
     maxlength: 30,
     default: 'Исследователь', // а максимальная — 30 символов // тип — String
   },
   avatar: {
     type: String, // гендер — это строка
-    // required: true,
+
     validate: {
       validator: (v) => validator.isURL(v) && urlRegExp.test(v),
       message: 'Некорректный URL',
@@ -45,7 +43,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 8,
     select: false,
   },
 });

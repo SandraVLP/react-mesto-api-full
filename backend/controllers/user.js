@@ -12,11 +12,7 @@ module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
-      } else {
-        next(new Error());
-      }
+      next(err);
     });
 };
 
@@ -25,22 +21,17 @@ module.exports.getUserById = (req, res, next) => {
     .orFail(() => { throw new NotFoundError('Пользователь с указанным _id не найден.'); })
     .then((user) => res.status(200).send(
       {
-        data: {
-          name: user.name, about: user.about, avatar: user.avatar, email: user.email,
-        },
+        data: { data: user },
       },
     ))
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Пользователь по указанному _id не найден.'));
-      } else {
-        next(err);
-      }
+      next(err);
     });
 };
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
+    .orFail(() => { throw new NotFoundError('Пользователь с указанным _id не найден.'); })
     .then((user) => res.status(200).send(
       {
         data: {
@@ -49,11 +40,7 @@ module.exports.getUser = (req, res, next) => {
       },
     ))
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Пользователь по указанному _id не найден.'));
-      } else {
-        next(err);
-      }
+      next(err);
     });
 };
 
@@ -80,28 +67,24 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
-      } else if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
       } else if (err.code === 11000) {
         next(new HTPPConflictError('Попытка создать дубликат уникального поля.'));
         // Обработка ошибки 409
       } else {
-        next(new Error());
+        next(err);
       }
     });
 };
 
 module.exports.patchUserProfile = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
-    .orFail(() => new Error('NotFound'))
+    .orFail(() => { throw new NotFoundError('Пользователь с указанным _id не найден.'); })
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
-      } else if (err.statusCode === 404) {
-        next(new NotFoundError('Пользователь с указанным _id не найден.'));
       } else {
-        next(new Error());
+        next(err);
       }
     });
 };
@@ -113,10 +96,8 @@ module.exports.patchUserAvatar = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные при обновлении аватара.'));
-      } else if (err.message === 'NotFound') {
-        next(new NotFoundError('Пользователь с указанным _id не найден.'));
       } else {
-        next(new Error());
+        next(err);
       }
     });
 };
@@ -124,13 +105,14 @@ module.exports.patchUserAvatar = (req, res, next) => {
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
+    .orFail(() => { throw new UnauthorizedError('Пользователь не найден.'); })
     .then((user) => {
     // создадим токен
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       // вернём токен
       res.status(200).send({ token });
     })
-    .catch(() => {
-      next(new UnauthorizedError('Пользователь не найден.'));
+    .catch((err) => {
+      next(err);
     });
 };

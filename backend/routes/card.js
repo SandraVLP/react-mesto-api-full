@@ -9,35 +9,27 @@ const {
 const urlRegExp = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
 
 router.get('/', auth, getCards);
-router.delete('/:cardId', celebrate({
+router.delete('/:cardId', auth, celebrate({
   params: Joi.object().keys({
     cardId: Joi.string().length(24).hex().required(),
   }),
-}), auth, deleteCard);
-router.post('/', celebrate({
+}), deleteCard);
+router.post('/', auth, celebrate({
   // params: Joi.string().pattern(),
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
     link: Joi.string().required().regex(RegExp(urlRegExp)),
   }),
-}), auth, postCard);
-router.put('/:cardId/likes', celebrate({
+}), postCard);
+router.put('/:cardId/likes', auth, celebrate({
   params: Joi.object().keys({
     cardId: Joi.string().length(24).hex().required(),
   }),
-  body: Joi.object().keys({
-  }),
-}), auth, putLike);
-router.delete('/:cardId/likes', celebrate({
+}), putLike);
+router.delete('/:cardId/likes', auth, celebrate({
   params: Joi.object().keys({
     cardId: Joi.string().length(24).hex().required(),
   }),
-  body: Joi.object().keys({
-  }),
-}), auth, deleteLike);
-
-router.use((req, res) => {
-  res.status(404).send({ message: 'Страница по указанному маршруту не найдена' });
-});
+}), deleteLike);
 
 module.exports = router;
