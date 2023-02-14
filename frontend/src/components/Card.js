@@ -28,7 +28,7 @@ const cardDeleteButtonClassName = (
 const isLiked = props.card.likes.some(i => i === currentUser?._id);
 
 // Создаём переменную, которую после зададим в `className` для кнопки лайка
-const cardLikeButtonClassName = `element__heart ${isOwn && 'element__heart_hidden'} ${isLiked && 'element__heart_active'}`;
+const cardLikeButtonClassName = `element__heart ${isLiked && 'element__heart_active'}`;
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

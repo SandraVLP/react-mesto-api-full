@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://apialeksanvp.nomoredomains.work';
+export const BASE_URL = 'https://apialeksanvp.nomoredomains.work';
 
 function checkResponse(res) {
   if (res.ok) {

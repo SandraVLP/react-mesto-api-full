@@ -27,16 +27,20 @@ module.exports.postCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = async (req, res, next) => {
-  const cardToDelete = await Card.findOne({ _id: req.params.cardId });
-  const currentUserId = req.user._id;
-  if (cardToDelete == null) {
-    next(new NotFoundError('Передан несуществующий _id карточки.'));
-  } else if (currentUserId === cardToDelete.owner.toString()) {
-    Card.findByIdAndDelete(req.params.cardId)
-      .then((card) => res.status(200).send({ data: card }))
-      .catch(() => next(new NotFoundError('Карточка с указанным _id не найдена.')));
-  } else {
-    next(new ForbiddenError('Нельзя удалять чужие карточки.'));
+  try {
+    const cardToDelete = await Card.findOne({ _id: req.params.cardId });
+    const currentUserId = req.user._id;
+    if (cardToDelete == null) {
+      next(new NotFoundError('Передан несуществующий _id карточки.'));
+    } else if (currentUserId === cardToDelete.owner.toString()) {
+      Card.findByIdAndDelete(req.params.cardId)
+        .then((card) => res.status(200).send({ data: card }))
+        .catch(() => next(new NotFoundError('Карточка с указанным _id не найдена.')));
+    } else {
+      next(new ForbiddenError('Нельзя удалять чужие карточки.'));
+    }
+  } catch (err) {
+    next(err);
   }
 };
 

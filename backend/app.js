@@ -10,16 +10,11 @@ const { celebrate, Joi } = require('celebrate');
 
 const app = express();
 const { errors } = require('celebrate');
+const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const {
   login, createUser,
 } = require('./controllers/user');
-
-// const allowedCors = [
-//   'https://aleksanvp.nomoredomains.work',
-//   'http://aleksanvp.nomoredomains.work',
-//   'localhost:3000',
-// ];
 
 const NotFoundError = require('./errors/not-found-err');
 
@@ -46,24 +41,6 @@ const options = {
 };
 
 app.use('*', cors(options));
-// app.use((req, res, next) => {
-//   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
-//   // проверяем, что источник запроса есть среди разрешённых
-//   const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
-//   Значение для заголовка Access-Control-Allow-Methods по умолчанию (разрешены все типы запросов)
-//   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS';
-//   const requestHeaders = req.headers['access-control-request-headers'];
-//   if (allowedCors.includes(origin)) {
-//     res.header('Access-Control-Allow-Origin', origin);
-//   }
-//   if (method === 'OPTIONS') {
-//     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-//     res.header('Access-Control-Allow-Headers', requestHeaders);
-//     return res.end();
-//   }
-//   next();
-//   return Promise.resolve();
-// });
 
 app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
@@ -90,7 +67,7 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
-app.use((req, res, next) => {
+app.use('*', auth, (req, res, next) => {
   next(new NotFoundError('Страница по указанному маршруту не найдена'));
 });
 
