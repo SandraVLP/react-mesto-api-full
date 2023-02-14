@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken'); // импортируем модуль json
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 const User = require('../models/user');
-const UnauthorizedError = require('../errors/unauthorized-err');
 const BadRequestError = require('../errors/bad-request-err');
 const NotFoundError = require('../errors/not-found-err');
 const HTPPConflictError = require('../errors/http-conflict-err');
@@ -111,8 +110,5 @@ module.exports.login = (req, res, next) => {
       // вернём токен
       res.status(200).send({ token });
     })
-    .catch((err) => {
-      console.log('err', err);
-      next(new UnauthorizedError('Пользователь не найден.'));
-    });
+    .catch(next);
 };
