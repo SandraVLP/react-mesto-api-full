@@ -105,7 +105,6 @@ module.exports.patchUserAvatar = (req, res, next) => {
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
-    .orFail(() => { throw new UnauthorizedError('Пользователь не найден.'); })
     .then((user) => {
     // создадим токен
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
@@ -113,6 +112,11 @@ module.exports.login = (req, res, next) => {
       res.status(200).send({ token });
     })
     .catch((err) => {
-      next(err);
+      console.log(err);
+      if (err.name === 'CastError') {
+        next(new UnauthorizedError('Пользователь не найден.'));
+      } else {
+        next(err);
+      }
     });
 };
