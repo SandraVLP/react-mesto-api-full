@@ -111,7 +111,8 @@ module.exports.login = (req, res, next) => {
       // вернём токен
       res.status(200).send({ token });
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log('err', err);
       next(new UnauthorizedError('Пользователь не найден.'));
     });
 };
